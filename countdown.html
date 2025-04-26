@@ -1,0 +1,111 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exam Countdown</title>
+  <style>
+    body {
+      background-color: #000000;
+      color: #ffffff;
+      font-family: 'Arial', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      font-size: 3rem;
+      margin: 20px 0 10px 0;
+    }
+    #clock {
+      font-size: 2rem;
+      margin-bottom: 30px;
+      color: #00ffff;
+    }
+    .exam {
+      background: #111111;
+      border: 2px solid #00ffff;
+      border-radius: 20px;
+      padding: 30px 50px;
+      margin: 15px 0;
+      width: 90%;
+      max-width: 600px;
+      text-align: center;
+      box-shadow: 0 0 20px #00ffff88;
+      transition: 0.3s;
+    }
+    .exam:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 30px #00ffffcc;
+    }
+    .days {
+      font-size: 4rem;
+      font-weight: bold;
+      color: #00ffff;
+    }
+    .name {
+      font-size: 2rem;
+      margin-top: 10px;
+      color: #ffffff;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Upcoming Exams Countdown</h1>
+  <div id="clock"></div>
+  <div id="exams"></div>
+
+  <script>
+    const exams = [
+      { name: "LIC AAO Prelims", date: "2025-07-05" },
+      { name: "LIC AAO Mains", date: "2025-08-10" },
+      { name: "RRB PO Prelims", date: "2025-07-27" },
+      { name: "RRB PO Mains", date: "2025-09-13" },
+      { name: "RRB Clerk Prelims", date: "2025-08-30" },
+      { name: "RRB Clerk Mains", date: "2025-10-10" },
+      { name: "IBPS PO Prelims", date: "2025-09-29" },
+      { name: "IBPS PO Mains", date: "2025-11-24" },
+      { name: "IBPS Clerk Prelims", date: "2025-12-01" },
+      { name: "IBPS Clerk Mains", date: "2026-02-05" },
+    ];
+
+    const examsContainer = document.getElementById("exams");
+
+    function calculateDaysLeft(examDate) {
+      const today = new Date();
+      const exam = new Date(examDate);
+      const diffTime = exam - today;
+      return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    }
+
+    exams.forEach(exam => {
+      const daysLeft = calculateDaysLeft(exam.date);
+      const examDiv = document.createElement("div");
+      examDiv.classList.add("exam");
+      examDiv.innerHTML = `
+        <div class="days">${daysLeft} Days</div>
+        <div class="name">${exam.name}</div>
+      `;
+      examsContainer.appendChild(examDiv);
+    });
+
+    function updateClock() {
+      const now = new Date();
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const seconds = String(now.getSeconds()).padStart(2, '0');
+      document.getElementById("clock").innerText = `${hours}:${minutes}:${seconds}`;
+    }
+
+    setInterval(updateClock, 1000);
+    updateClock();
+  </script>
+
+</body>
+</html>
